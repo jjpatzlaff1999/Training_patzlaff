@@ -1,0 +1,55 @@
+---
+title: "Loaddata"
+format: html
+---
+
+# Introduction
+
+## About the Data
+Text 
+
+# Setup
+
+
+
+```{r load packages}
+#| include: false
+#install.packages("tidyverse")
+library(tidyverse) 
+library(readr)
+#install.packages("here")
+library(here)
+#library() #shows you all the packages installed
+```
+
+
+```{r}
+bg_chem <- read_csv(here::here("data/BGchem2008data.csv"))
+```
+
+```{r}
+#| echo: false
+colnames(bg_chem)
+str(bg_chem)
+head(bg_chem)
+summary(bg_chem)
+```
+
+```{r}
+nitrate <- mean(bg_chem$NO3)
+nitrite <- mean(bg_chem$NO2)
+amm     <- mean(bg_chem$NH4)
+phos    <- mean(bg_chem$P)
+```
+
+
+```{r}
+ratio <- (nitrate + nitrite + amm) / phos
+```
+
+The Redfield ratio for this dataset is approximately `{r} round(ratio)`.
+
+
+```{r}
+plot(bg_chem$P, bg_chem$NO2 + bg_chem$NO3 + bg_chem$NH4)
+```
