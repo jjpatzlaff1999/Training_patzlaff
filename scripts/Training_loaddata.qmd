@@ -10,8 +10,6 @@ Text
 
 # Setup
 
-
-
 ```{r load packages}
 #| include: false
 #install.packages("tidyverse")

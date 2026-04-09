@@ -1,0 +1,39 @@
+---
+title: "Data Wrangling and Cleaning"
+format: html
+---
+# Clean and Wrangle Data
+
+## Setup
+
+```{r load in packages}
+#load in necessary packages
+library(dplyr)
+library(tidyr)
+library(readr)
+```
+
+## Source data
+
+### Read data
+
+```{r read in data}
+catch_original <- read_csv("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.302.1")
+```
+
+```{r}
+colnames(catch_original)
+head(catch_original)
+summary(catch_original)
+unique(catch_original$Region)
+```
+
+## Clean and reshape data
+
+```{r}
+# select only the columns we are interested in and create new dataset
+catch_data <- catch_original %>% 
+    select(Region, Year, Chinook, Sockeye, Coho, Pink, Chum)
+head(catch_data)
+```
+
