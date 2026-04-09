@@ -35,5 +35,123 @@ unique(catch_original$Region)
 catch_data <- catch_original %>% 
     select(Region, Year, Chinook, Sockeye, Coho, Pink, Chum)
 head(catch_data)
+
+#select desired columns and rename column names as needed
+ catch_data3 <- catch_original %>% 
+    select(Region, Year, Chinook, Sockeye, Coho, Pink, Chum, Total = All, notes = notesRegCode)
+head(catch_data3)
+glimpse(catch_original) #shows all values for all columns at a glimpse
 ```
 
+```{r}
+# have to use 1 in quotes because the Chinook column is character format
+catch_clean <- catch_data %>% 
+    mutate(Chinook = if_else(
+        Chinook == "I",
+        "1",
+        Chinook
+    ), 
+    Chinook = as.numeric(Chinook))
+glimpse(catch_clean)
+```
+
+```{r} 
+#turn wide data into long data
+catch_long <- catch_clean %>% 
+    pivot_longer(cols = -c(Region, Year), 
+        names_to = "species",
+        values_to = "catch_thousands"
+    )
+```
+
+```{r}
+catch_wide <- catch_long %>% 
+    pivot_wider(
+        names_from = species,
+        values_from = catch_thousands
+    )
+head(catch_wide)
+```
+
+### Convert to Fish numbers
+
+```{r}
+catch_long_v2 <- catch_long %>% 
+    mutate(catch = catch_thousands *1000) %>% 
+    select(-catch_thousands)
+head(catch_long_v2)
+```
+
+```{r}
+mean_region <- catch_long_v2 %>% 
+    group_by(Region) %>% 
+    summarize(mean_catch = mean(catch, na.rm = TRUE), .groups = "drop") %>% 
+    arrange(desc(mean_catch))
+
+head(mean_region)
+```
+
+```{r}
+sse_catch <- catch_long_v2 %>% 
+    filter(Region == "SSE")
+head(sse_catch)
+```
+
+
+```{r}
+sites_df <- data.frame(site = c("HAW-101", "HAW-103", "OAH-320", "OAH-219", "MAU-039"))
+sites_df %>% 
+    separate_wider_delim(
+        cols=site,
+        delim = "-",
+        names = c("island", "site_number"),
+        cols_remove = FALSE
+    )
+```
+
+
+```{r}
+dates_df <- data.frame(
+    year  = rep(x = "1930", times = 3),
+    month = rep(x = "12",   times = 3),
+    day   = 14:16)
+
+# Check that
+dates_df
+
+# Combine those columns into a single 'date' column
+dates_df %>%
+    unite(col = date, 
+        year, month, day,
+        sep = "-", 
+        remove = FALSE)
+dates_df
+```
+
+
+```{r}
+# Grab the data
+catch_original <- readr::read_csv(file = "https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.302.1",
+    show_col_types = FALSE)
+
+# Drop unwanted columns, fix "I" typo, reshape to long, transform catch
+# into individual fish count, calculate mean catch by region, and sort
+# in descending order
+mean_region <- catch_original %>%
+    dplyr::select(-All, -notesRegCode) %>% 
+    dplyr::mutate(
+        Chinook = dplyr::if_else(Chinook == "I", 
+            true = "1", false = Chinook),
+        Chinook = as.numeric(Chinook)) %>% 
+    tidyr::pivot_longer(-c(Region, Year), 
+        names_to = "species", 
+        values_to = "catch") %>%
+    dplyr::mutate(catch = catch*1000) %>% 
+    dplyr::group_by(Region) %>% 
+    dplyr::summarize(mean_catch = mean(catch, na.rm = TRUE),
+        .groups = "drop") %>% 
+    dplyr::arrange(dplyr::desc(mean_catch))
+
+# Check the result
+head(mean_region)
+```
