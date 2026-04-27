@@ -19,7 +19,7 @@ library(ggplot2)
 
 ```{r}
 # read in data from tinyurl link
-delta_visits_raw <- read_csv("https://tinyurl.com/delta-activities")
+delta_visits_raw <- read_csv(here("data/Socioecological_monitoring_data.csv"))
 ```
 
 ## Explore the data 
