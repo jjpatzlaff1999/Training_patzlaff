@@ -154,11 +154,6 @@ facet_plot <- ggplot(data = daily_visits_totals,
 facet_plot
 ```
 
-```{r}
-##ggsave(here("figures/visit_restore_site_facet.jpg"), 
-       plot = facet_plot, 
-       width = 12, height = 8, units = "in")
-```
 
 ```{r}
 facet_plot <- ggplot(data = daily_visits_loc,
