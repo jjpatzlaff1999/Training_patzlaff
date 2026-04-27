@@ -6,7 +6,8 @@ format: html
 
 ## Setup
 
-```{r load in packages}
+```{r}
+#| label: load packages
 #load in necessary packages
 library(dplyr)
 library(tidyr)
