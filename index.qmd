@@ -3,3 +3,6 @@ title: "Test Webpage"
 format: html
 ---
 
+## Course analyses
+
+- [Data Visualization](notebooks/data_visualization.html)
