@@ -13,6 +13,7 @@ library(tidyr)
 library(forcats)
 library(janitor)
 library(ggplot2)
+library(plotly)
 ```
 
 ## Load data
@@ -94,3 +95,32 @@ daily_visits_loc %>%
     axis.ticks.y = element_blank()
     )
 ```
+
+
+```{r}
+facet_plot <- ggplot(data = daily_visits_loc,
+       aes(x = visitor_type, y = daily_visits,
+           fill = visitor_type)) +
+    geom_col() +
+    facet_wrap(~restore_loc,
+               scales = "free_y",
+               ncol   = 5,
+               nrow   = 2) +
+    scale_fill_viridis_d() +
+    labs(x        = "Type of visitor",
+         y        = "Number of Visits",
+         title    = "Total Number of Visits to Delta Restoration Areas",
+         subtitle = "Sum of all visits during study period") +
+    theme_bw() +
+    theme(legend.position = "bottom",
+          axis.ticks.x    = element_blank(),
+          axis.text.x     = element_blank())
+
+facet_plot
+```
+
+```{r}
+ggplotly(facet_plot, tooltop = c('x','y'))
+```
+
+
