@@ -1,0 +1,31 @@
+---
+title: "Working with Vector Spatial Data in R"
+author: "Me"
+format: html
+---
+
+## Setup
+
+### Download Data
+```{r}
+out_dir <- here::here('data/ak_regions') # define an outdirectory that we will use later on, in folder data, there will be a subfolder called ak_regions
+# if don't have these files, download them, if have, skip
+if(!dir.exists(out_dir)) {
+    knb_url <- "https://dev.nceas.ucsb.edu/knb/d1/mn/v2/object/urn%3Auuid%3Aaceaecb2-1ce0-4d41-a839-d3607d32bb58"
+
+    download.file(url = knb_url, 
+                  destfile = 'shapefile_demo_data.zip', 
+                  mode = 'wb')
+
+    unzip('shapefile_demo_data.zip', exdir = out_dir)
+
+    file.remove('shapefile_demo_data.zip')
+}
+```
+
+## Data exploration
+
+
+## Analaysis 
+
+## Visualization
