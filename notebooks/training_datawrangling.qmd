@@ -6,7 +6,8 @@ format: html
 
 ## Setup
 
-```{r load in packages}
+```{r}
+#| label: load packages
 #load in necessary packages
 library(dplyr)
 library(tidyr)
@@ -154,4 +155,8 @@ mean_region <- catch_original %>%
 
 # Check the result
 head(mean_region)
+```
+
+```{r}
+
 ```
