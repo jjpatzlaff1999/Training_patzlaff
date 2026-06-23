@@ -51,3 +51,17 @@ The Redfield ratio for this dataset is approximately `{r} round(ratio)`.
 ```{r}
 plot(bg_chem$P, bg_chem$NO2 + bg_chem$NO3 + bg_chem$NH4)
 ```
+
+
+# my hands are typing words
+
+```{r}
+# my hands are typing
+```
+
+# hellooooo
+
+```{r}
+# new code chunk
+```
+
